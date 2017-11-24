@@ -3,9 +3,11 @@ require 'ui'
 
 class AlignmentTest < Test::Unit::TestCase
 
+  include UI::Builder
+
   def test_basics
 
-    dlg = UI.main_dialog {
+    dlg = main_dialog {
       vbox {
 
         frame("Align") {
@@ -59,8 +61,6 @@ class AlignmentTest < Test::Unit::TestCase
 
     assert_kind_of UI::Alignment, top
     assert_kind_of UI::Alignment, bottom
-
-    dlg.wait_for_event
   end
 
 end

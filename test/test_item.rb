@@ -9,8 +9,10 @@ end
 
 class ItemTest < Test::Unit::TestCase
 
+  include UI::Builder
+
   def test_basics
-    dialog = UI.main_dialog {
+    dialog = main_dialog {
       vbox(:id => :vbox1) {
         selection_box "Elements", :id => :box
       }

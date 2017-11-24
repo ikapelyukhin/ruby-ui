@@ -26,32 +26,29 @@ module UI
       end
     end
 
-    [TOPLEVEL_ELEMENTS, CONTAINER_ELEMENTS,
-      LEAF_ELEMENTS].flatten.each do |element|
-      eval <<-EOM #use eval as ruby 1.8 don't have define_method with block
-        def #{element}(*args, &block)
-          File.write("/tmp/io.calls", "call #{element} with \#{args.inspect}")
-          opts = {}
-          # If last element is a Hash
-          # we assume they are options
-          if args.last.is_a?(Hash)
-            opts = args.pop
-          end
-          # add parent if needed
-          unless TOPLEVEL_ELEMENTS.include?(:#{element})
-            args.unshift(@__ui_builder_parent)
-          end
-          el = Builder.create_#{element}(*args)
-          initialize_widget(el, opts)
-          unless LEAF_ELEMENTS.include?(:#{element})
-            old_parent = @__ui_builder_parent
-            @__ui_builder_parent = el
-            block.call
-            @__ui_builder_parent = old_parent
-          end
-          el
+    [TOPLEVEL_ELEMENTS, CONTAINER_ELEMENTS, LEAF_ELEMENTS].flatten.each do |element|
+      define_method(element) do |*args, &block|
+        File.write("/tmp/io.calls", "call #{element} with \#{args.inspect}")
+        opts = {}
+        # If last element is a Hash
+        # we assume they are options
+        if args.last.is_a?(Hash)
+          opts = args.pop
         end
-      EOM
+        # add parent if needed
+        unless TOPLEVEL_ELEMENTS.include?(element)
+          args.unshift(@__ui_builder_parent)
+        end
+        el = Builder.send("create_#{element}", *args)
+        initialize_widget(el, opts)
+        unless LEAF_ELEMENTS.include?(element)
+          old_parent = @__ui_builder_parent
+          @__ui_builder_parent = el
+          block.call
+          @__ui_builder_parent = old_parent
+        end
+        el
+      end
     end
 
     # @!group Top level elements

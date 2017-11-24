@@ -3,9 +3,11 @@ require 'ui'
 
 class RadioButtonTest < Test::Unit::TestCase
 
+  include UI::Builder
+
   def test_basics
 
-    dialog = UI.main_dialog {
+    dialog = main_dialog {
       radio_button_group(:id => :group) {
         vbox {
           radio_button "Option 1", :id => :opt1

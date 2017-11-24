@@ -3,9 +3,11 @@ require 'ui'
 
 class CheckBoxTest < Test::Unit::TestCase
 
+  include UI::Builder
+
   def test_basics
 
-    dialog = UI.main_dialog {
+    dialog = main_dialog {
       vbox {
         check_box "Option 1", :id => :opt1
         check_box "Option 2", :id => :opt2
@@ -14,7 +16,7 @@ class CheckBoxTest < Test::Unit::TestCase
     }
 
     opt1 = dialog.find(:opt1)
-    opt2 = dialog.find(:opt2)
+    opt2 = dialog.find(:opt2) # FIXME: check those values too?
     opt3 = dialog.find(:opt3)
 
     assert_kind_of UI::CheckBox, opt1

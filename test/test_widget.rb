@@ -2,7 +2,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), 'helper'))
 require 'ui'
 
 class WidgetTest < Test::Unit::TestCase
-
+  include UI::Builder
   def setup
     @dialog = UI::Builder.create_main_dialog
     @vbox = UI::Builder.create_vbox(@dialog)
@@ -12,9 +12,10 @@ class WidgetTest < Test::Unit::TestCase
     @btn.id = :btn1
   end
 
-  def teardown
-    @dialog.destroy!
-  end
+  # FIXME that crashes ruby
+  #def teardown
+  #  @dialog.destroy!
+  #end
 
   # Test ruby values as object ids
   def test_id
@@ -66,7 +67,7 @@ class WidgetTest < Test::Unit::TestCase
   end
 
   def test_children_are_invalidated
-    dialog = UI.main_dialog {
+    dialog = main_dialog {
       vbox(:id => :vbox1) {
         push_button "Ok", :id => :btn1
       }

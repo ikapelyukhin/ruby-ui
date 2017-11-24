@@ -3,9 +3,10 @@ require 'ui'
 
 class BuilderTest < Test::Unit::TestCase
 
-  def test_build 
+  include UI::Builder
 
-    dlg = UI.main_dialog {
+  def test_build
+    dlg = main_dialog {
       vbox {
         hbox {
           label 'Hello', :id => :lbl1
@@ -34,7 +35,7 @@ class BuilderTest < Test::Unit::TestCase
 
   def test_exception_handling
     assert_raise(RuntimeError) {
-      UI.main_dialog {
+      main_dialog {
         push_button 'OK', :Enabled => false
         push_button 'OK', :Enabled => false
       }

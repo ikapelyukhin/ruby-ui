@@ -5,7 +5,6 @@ require 'slim/parser'
 require 'slim/filter'
 require 'slim/embedded'
 require 'slim/interpolation'
-require 'ui'
 require 'pp'
 
 module UI

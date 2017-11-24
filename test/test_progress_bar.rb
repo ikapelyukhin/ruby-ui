@@ -3,9 +3,11 @@ require 'ui'
 
 class ProgressBarTest < Test::Unit::TestCase
 
+  include UI::Builder
+
   def test_basics
 
-    dlg = UI.main_dialog {
+    dlg = main_dialog {
       progress_bar 'Progress', :id => :bar
     }
 
